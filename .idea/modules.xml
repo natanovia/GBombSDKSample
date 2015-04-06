@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GBombSDKSample.iml" filepath="$PROJECT_DIR$/GBombSDKSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/facebookSDKWrapper/facebookSDKWrapper.iml" filepath="$PROJECT_DIR$/facebookSDKWrapper/facebookSDKWrapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gbombLoginSDKWrapper/gbombLoginSDKWrapper.iml" filepath="$PROJECT_DIR$/gbombLoginSDKWrapper/gbombLoginSDKWrapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gbombSDKWrapper/gbombSDKWrapper.iml" filepath="$PROJECT_DIR$/gbombSDKWrapper/gbombSDKWrapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inAppPurchaseWrapper/inAppPurchaseWrapper.iml" filepath="$PROJECT_DIR$/inAppPurchaseWrapper/inAppPurchaseWrapper.iml" />
+    </modules>
+  </component>
+</project>
+
