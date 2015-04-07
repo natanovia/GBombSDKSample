@@ -11,13 +11,13 @@ extern "C" {
         IGbombClient *client = GbombClient::getInstance();
         client->init("YOUR_GAME_ID");
         static JNIEnv* sEnv = env;
-        static jobject sObj = thiz;
+        static jobject sObj = (jobject)env->NewGlobalRef(thiz);
 
         client->login([](const int code, const std::string data) {
            LOGD("start callback");
 
-           jclass cls = sEnv->FindClass("com/gbombgames/sdk/sample/MainActivity");
-           jmethodID mid = sEnv->GetMethodID(cls, "loginCallback", "(I;Ljava/lang/String;)V;");
+           jclass cls = sEnv->GetObjectClass(sObj);
+           jmethodID mid = sEnv->GetMethodID(cls, "loginCallback", "(ILjava/lang/String;)V");
            if (mid == 0) {
             LOGD("cannot find method");
            } else {
