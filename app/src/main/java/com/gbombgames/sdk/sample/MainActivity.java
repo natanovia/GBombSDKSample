@@ -22,8 +22,8 @@ public class MainActivity extends ActionBarActivity {
     native void login();
 
     void loginCallback(int code, String data) {
-        Log.d(TAG, String.valueOf(code));
-        Log.d(TAG, data);
+
+        Log.d(TAG, "code: " + code + ", data: " + data);
     }
 
     @Override
