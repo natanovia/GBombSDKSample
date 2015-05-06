@@ -6,25 +6,34 @@
 #define LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 extern "C" {
-    JNIEXPORT void Java_com_gbombgames_sdk_sample_MainActivity_login(JNIEnv* env, jobject thiz) {
+
+    JavaVM* javaVM = NULL;
+    jclass activityClass;
+    jobject activityObj;
+
+    JNIEXPORT void Java_com_gbombgames_sdk_sample_MainActivity_login(JNIEnv* env, jobject obj) {
 
         LOGD("start jni");
         IGbombClient *client = GbombClient::getInstance();
         client->init("YOUR_GAME_ID");
-        static JNIEnv* sEnv = env;
-        static jobject sObj = (jobject)env->NewGlobalRef(thiz);
+
+        env->GetJavaVM(&javaVM);
+        /* Same as sObj.getClass() */
+        jclass cls = env->GetObjectClass(obj);
+        activityClass = (jclass) env->NewGlobalRef(cls);
+        activityObj = env->NewGlobalRef(obj);
 
         client->login([](const int code, const std::string data) {
 
             LOGD("start callback");
 
-            /* Same as sObj.getClass() */
-            jclass clazz = sEnv->GetObjectClass(sObj);
+            JNIEnv *env;
+            javaVM->AttachCurrentThread(&env, NULL);
 
-            if ( clazz != NULL ) {
+            if ( activityClass != NULL ) {
 
                 /* Same as clazz.getMethod("loginCallback", String.class) - assuming non-static */
-                jmethodID methodId = sEnv->GetMethodID(clazz, "loginCallback", "(ILjava/lang/String;)V");
+                jmethodID methodId = env->GetMethodID(activityClass, "loginCallback", "(ILjava/lang/String;)V");
 
                 if (methodId == 0) {
 
@@ -35,12 +44,12 @@ extern "C" {
                     LOGD("found callback method");
 
                     /* Create a new Java String */
-                    jstring jstrData = sEnv->NewStringUTF(data.c_str());
+                    jstring jstrData = env->NewStringUTF(data.c_str());
 
                     if ( jstrData != NULL ) {
 
                         /* Same as methodId.invoke(sObj, code, jstrData) */
-                        sEnv->CallVoidMethod(sObj, methodId, code, jstrData);
+                        env->CallVoidMethod(activityObj, methodId, code, jstrData);
                     }
                 }
             }
